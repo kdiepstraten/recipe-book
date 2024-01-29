@@ -1,5 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit, } from '@angular/core';
 import {Recipe} from "../recipe.model";
+import {RecipeService} from "../recipe.service";
 
 @Component({
   selector: 'app-recipe-list',
@@ -7,22 +8,17 @@ import {Recipe} from "../recipe.model";
   styleUrl: './recipe-list.component.css'
 })
 export class RecipeListComponent implements OnInit {
-  @Output() recipeWasSelected = new EventEmitter<Recipe>();
 
-  recipes: Recipe[] = [
-    new Recipe('A test Recipe', 'This is a test', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/714a4d34-4368-4def-b575-7fd269cf0439/ddqzawx-d9945f25-123f-4410-aeb5-3b5d389585bf.jpg/v1/fill/w_182,h_250,q_70,strp/flan_recipe_by_elitandark_ddqzawx-250t.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTc1NCIsInBhdGgiOiJcL2ZcLzcxNGE0ZDM0LTQzNjgtNGRlZi1iNTc1LTdmZDI2OWNmMDQzOVwvZGRxemF3eC1kOTk0NWYyNS0xMjNmLTQ0MTAtYWViNS0zYjVkMzg5NTg1YmYuanBnIiwid2lkdGgiOiI8PTEyNzUifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.DOAy3r0UFrZA8p3wTNAgPBTP-EoSoUsgK2Dva9-Tckg'),
-    new Recipe('The second test Recipe', 'Boop', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/714a4d34-4368-4def-b575-7fd269cf0439/ddqzawx-d9945f25-123f-4410-aeb5-3b5d389585bf.jpg/v1/fill/w_182,h_250,q_70,strp/flan_recipe_by_elitandark_ddqzawx-250t.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTc1NCIsInBhdGgiOiJcL2ZcLzcxNGE0ZDM0LTQzNjgtNGRlZi1iNTc1LTdmZDI2OWNmMDQzOVwvZGRxemF3eC1kOTk0NWYyNS0xMjNmLTQ0MTAtYWViNS0zYjVkMzg5NTg1YmYuanBnIiwid2lkdGgiOiI8PTEyNzUifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.DOAy3r0UFrZA8p3wTNAgPBTP-EoSoUsgK2Dva9-Tckg')
-  ];
 
-  constructor() {
+  recipes: Recipe[] = [];
+
+  constructor(private recipeService: RecipeService) {
   }
 
   ngOnInit() {
+    this.recipes = this.recipeService.getRecipes();
   }
 
-  onRecipeSelected(recipe: Recipe) {
-    this.recipeWasSelected.emit(recipe);
-  }
 
   protected readonly Recipe = Recipe;
 }
