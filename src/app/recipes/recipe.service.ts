@@ -1,45 +1,58 @@
-import { Injectable} from "@angular/core";
-import {Recipe} from "./recipe.model";
-import {Ingredient} from "../shared/ingredient.model";
-import {ShoppingListService} from "../shopping-list/shopping-list.service";
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
-
+import { Recipe } from './recipe.model';
+import { Ingredient } from '../shared/ingredient.model';
+import { ShoppingListService } from '../shopping-list/shopping-list.service';
 
 @Injectable()
 export class RecipeService {
+  recipesChanged = new Subject<Recipe[]>();
 
   private recipes: Recipe[] = [
-    new Recipe('Pizza',
-      'Here is a recipe of a delicious pizza',
-      'https://www.foodandwine.com/thmb/Wd4lBRZz3X_8qBr69UOu2m7I2iw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/classic-cheese-pizza-FT-RECIPE0422-31a2c938fc2546c9a07b7011658cfd05.jpg',
+    new Recipe(
+      'Tasty Schnitzel',
+      'A super-tasty Schnitzel - just awesome!',
+      'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
       [
-        new Ingredient('Cheese', 1),
-        new Ingredient('Tomato Sauce', 1),
-        new Ingredient('Oregano', 1)
+        new Ingredient('Meat', 1),
+        new Ingredient('French Fries', 20)
       ]),
-
-    new Recipe('Creme Brulee',
-      'This is a Creme Brulee recipe',
-      'https://www.laurasbakery.nl/wp-content/smush-webp/2020/08/cr%C3%A8me-br%C3%BBl%C3%A9e-1a.jpg.webp',
+    new Recipe('Big Fat Burger',
+      'What else you need to say?',
+      'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
       [
-        new Ingredient('Milk', 2),
-        new Ingredient('Sugar', 1),
-        new Ingredient('Eggs', 2)
+        new Ingredient('Buns', 2),
+        new Ingredient('Meat', 1)
       ])
   ];
 
-  constructor(private slService: ShoppingListService) {
-  }
+  constructor(private slService: ShoppingListService) {}
 
   getRecipes() {
     return this.recipes.slice();
   }
 
-
-  getRecipe(index: number){
+  getRecipe(index: number) {
     return this.recipes[index];
   }
+
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
-    this.slService.addIngredients(ingredients)
+    this.slService.addIngredients(ingredients);
+  }
+
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
   }
 }
