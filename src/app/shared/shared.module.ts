@@ -19,8 +19,7 @@ import {CommonModule} from "@angular/common";
     AlertComponent,
     LoadingSpinnerComponent,
     PlaceholderDirective,
-    DropdownDirective,
-    CommonModule
+    DropdownDirective
   ]
 })
 export class SharedModule{
