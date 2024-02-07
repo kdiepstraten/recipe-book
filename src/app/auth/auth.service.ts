@@ -118,15 +118,35 @@ export class AuthService {
 
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!'
+    console.log('Error Response:', errorRes);
+
     if (!errorRes.error || !errorRes.error.error) {
+      console.log('Error properties missing:', errorRes.error);
       return throwError(errorMessage)
     }
-    switch (errorRes.error.error.error.message) {
+// Check if the error message is nested under 'message'
+    if (errorRes.error.error.message) {
+      errorMessage = errorRes.error.error.message;
+    } else {
+      // Fallback to a generic message if no specific message found
+      errorMessage = 'An error occurred.';
+    }
+
+    console.log('Final Error Message:', errorMessage);
+
+
+    switch (errorRes.error.error.message) {
       case 'EMAIL_EXISTS':
         errorMessage = 'This email exists already';
         break;
       case 'EMAIL_NOT_FOUND':
         errorMessage = 'This email does not exist.';
+        break;
+      case 'INVALID_LOGIN_CREDENTIALS':
+        errorMessage = 'Not valid credentials';
+        break;
+      case 'TO_MANY_ATTEMPTS_TRY_LATER':
+        errorMessage = 'Try again later';
         break;
       case 'INVALID_PASSWORD':
         errorMessage = 'This password is not correct';
