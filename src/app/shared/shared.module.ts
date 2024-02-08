@@ -10,7 +10,8 @@ import {CommonModule} from "@angular/common";
     AlertComponent,
     LoadingSpinnerComponent,
     PlaceholderDirective,
-    DropdownDirective
+    DropdownDirective,
+
   ],
   imports: [
     CommonModule
@@ -19,7 +20,8 @@ import {CommonModule} from "@angular/common";
     AlertComponent,
     LoadingSpinnerComponent,
     PlaceholderDirective,
-    DropdownDirective
+    DropdownDirective,
+    CommonModule
   ]
 })
 export class SharedModule{
