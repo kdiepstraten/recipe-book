@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, OnDestroy, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, ComponentFactoryResolver, OnDestroy, ViewChild} from "@angular/core";
 import {NgForm} from "@angular/forms";
 import {AuthResponseData, AuthService} from "./auth.service";
 import {Observable, Subscription} from "rxjs";
@@ -15,7 +15,7 @@ export class AuthComponent implements OnDestroy{
   isLoginMode = true;
   isLoading = false;
   error: string = '';
-  @ViewChild(PlaceholderDirective, {static: false}) alertHost!: PlaceholderDirective;
+  @ViewChild(PlaceholderDirective) alertHost!: PlaceholderDirective;
 
   private closeSub!: Subscription;
   constructor(
